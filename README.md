@@ -1,12 +1,20 @@
 # Запуск
-Создание виртуального окружения.
+Создадать виртуальное окружение.
+```bash
+python -m venv env
+```
 
-Установка зависимостей
+Включить виртуальное окружение.
+```bash
+source env/bin/activate
+```
+
+Установить зависимости
 ```bash
 pip install -r requirements.txt
 ```
 
-Запуск API
+Запустить API
 ```bash
-ubicorn app.main:app
+uvicorn app.main:app
 ```
