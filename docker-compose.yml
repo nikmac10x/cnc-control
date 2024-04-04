@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: lvinka-postgres
+    image: postgres:16.2
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U lvinka -d lvinka" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 1s
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "lvinka"
+      POSTGRES_USER: "lvinka"
+      POSTGRES_PASSWORD: "lvinka-db-password"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/postgres:/var/lib/postgresql
+    networks:
+      - postgres
+
+  pgadmin:
+    container_name: lvinka-pgadmin
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "lvinka@localhost.localdomain"
+      PGADMIN_DEFAULT_PASSWORD: "secret"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./database/pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - postgres
+
+  api:
+      container_name: lvinka-api
+      image: api:dev
+      build: .
+      volumes:
+        - ./env:/code/.env
+      ports:
+        - "8000:8000"
+      healthcheck:
+        test: curl --fail "http://localhost:8000/docs" || exit 1
+        interval: 30s
+        timeout: 10s
+        start_period: 10s
+        retries: 5
+      depends_on:
+        postgres:
+          condition: service_healthy
+      command: >
+        sh -c "yoyo apply -b --database postgresql://lvinka:lvinka-db-password@postgres/lvinka
+        && uvicorn app.main:app --host=0.0.0.0 --port=8000"
+      networks:
+        - postgres
+
+networks:
+  postgres:
+    driver: bridge

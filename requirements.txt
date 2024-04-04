@@ -1,3 +1,6 @@
 fastapi==0.110.0  # фреймворк API
 uvicorn==0.29.0  # сервер API
 pymodbus==2.5.3  # взаимодействие с ПЧ
+psycopg==3.1.18  # взаимодействие  с БД PostgreSQL
+yoyo-migrations==8.2.0  # миграции
+psycopg2-binary==2.9.9  # для работы yoyo-migrations

@@ -18,3 +18,8 @@ pip install -r requirements.txt
 ```bash
 uvicorn app.main:app
 ```
+
+Миграции
+```bash
+yoyo init --database postgresql://lvinka:lvinka-db-password@localhost/lvinka
+```
