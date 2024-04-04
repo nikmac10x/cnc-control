@@ -1,2 +1,3 @@
-fastapi==0.110.0
-uvicorn==0.29.0
+fastapi==0.110.0  # фреймворк API
+uvicorn==0.29.0  # сервер API
+pymodbus==2.5.3  # взаимодействие с ПЧ

@@ -2,15 +2,24 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
+example_motor = {
+    "id": 1,
+    "location": "на первом конвеере за углом",
+    "ip": "192.168.1.133",
+    "port": 502,
+    "status": "green",
+}
+
 
 @router.get("/motors")
 async def get_motors():
-    motors = []
+    motors = [example_motor]
     return motors
+
 
 @router.get("/motors/{motor_id}")
 async def get_motor(motor_id: int):
-    motor = {}
+    motor = example_motor
     return motor
 
 
