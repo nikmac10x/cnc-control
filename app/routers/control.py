@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException, status
 from pymodbus.client.sync import ModbusTcpClient
 
 from app.schemas.control import MotorCommandRequest
-from app.routers.motors import example_motor
 
 
 router = APIRouter()
@@ -35,6 +34,8 @@ def _control_by_modbus(host, port, command, speed=None):
         #raise HTTPException(status_code=404)
 
     client.close()
+
+
 def _status_by_modbus(host, port):
     client = ModbusTcpClient(host, int(port))
     if not client.connect():
@@ -50,10 +51,9 @@ def _status_by_modbus(host, port):
     client.close()
 
 
-
 @router.post("/motors/command")
 async def get_motor_status(scheme: MotorCommandRequest):
-    motor = example_motor
+    motor = {}
     print("Control", motor["ip"], motor["port"])
     _control_by_modbus(motor["ip"], motor["port"], scheme.command, scheme.speed)
 

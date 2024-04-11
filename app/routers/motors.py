@@ -1,40 +1,31 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from typing import List
+
+from app.schemas.motors import MotorsRequest, MotorsResponse, MotorsCreateRequest, Motor
+from app.handlers.motors import MotorHandler
+
 
 router = APIRouter()
 
-example_motor = {
-    "id": 1,
-    "location": "на первом конвеере за углом",
-    "ip": "192.168.1.133",
-    "port": 502,
-    "status": "green",
-}
 
-
-@router.get("/motors")
-async def get_motors():
-    motors = [example_motor]
-    return motors
+@router.get("/motors",
+            response_model=MotorsResponse)
+async def get_motors(requestId: str, handler: MotorHandler = Depends()):
+    motors = handler.get_motors()
+    return {"requestId": requestId, "motors": motors}
 
 
 @router.get("/motors/{motor_id}")
-async def get_motor(motor_id: int):
-    motor = example_motor
-    return motor
+async def get_motor(motor_id: int, requestId: str, handler: MotorHandler = Depends()):
+    return {"requestId": requestId, "motor": handler.get_motor(motor_id)}
 
 
 @router.post("/motors")
-async def post_motor(scheme):
-    motor = {}
-    return motor
-
-
-@router.put("/motors/{motor_id}")
-async def put_motor(motor_id: int, scheme):
-    motor = {}
-    return motor
+async def post_motor(requestId: str, scheme: MotorsCreateRequest, handler: MotorHandler = Depends()):
+    return {"requestId": requestId, "motor": handler.save(scheme.motor)}
 
 
 @router.delete("/motors/{motor_id}")
-async def delete_motor(motor_id: int):
-    return
+async def delete_motor(motor_id: int, requestId: str, handler: MotorHandler = Depends()):
+    handler.drop(motor_id)
+    return {"requestId": requestId}

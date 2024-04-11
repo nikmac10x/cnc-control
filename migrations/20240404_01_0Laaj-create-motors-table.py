@@ -7,6 +7,7 @@ from yoyo import step
 __depends__ = {}
 
 steps = [
+    step("DROP table motors;"),
     step(
         """
         CREATE TABLE motors (
@@ -15,7 +16,7 @@ steps = [
             ip  varchar(40) NOT NULL,
             port    integer,
             status  varchar(40),
-            statusDate  timestamp
+            "statusDate"  timestamp
         );
         """
     )
