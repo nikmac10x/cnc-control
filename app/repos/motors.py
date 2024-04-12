@@ -18,10 +18,13 @@ class MotorRepository:
                 return cur.fetchall()
 
     def get(self, id: int):
-        with self.get_conn() as conn:
-            with conn.cursor() as cur:
-                cur.execute("SELECT * FROM motors WHERE id = %s", [id])
-                return cur.fetchone()
+        try:
+            with self.get_conn() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT * FROM motors WHERE id = %s", [id])
+                    return cur.fetchone()
+        except Exception as e:
+            return None
 
     def save(self, model):
         fields = []
