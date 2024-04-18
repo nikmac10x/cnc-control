@@ -22,26 +22,3 @@ class MotorCreate(BaseModel):
     location: str
     ip: str
     port: int
-
-
-class MotorsRequest(BaseModel):
-    model_config = ConfigDict(from_attributes=True,
-                              arbitrary_types_allowed=True)
-
-    requestId: str
-
-
-class MotorsResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True,
-                              arbitrary_types_allowed=True)
-
-    requestId: str
-    motors: List[Motor]
-
-
-class MotorsCreateRequest(BaseModel):
-    model_config = ConfigDict(from_attributes=True,
-                              arbitrary_types_allowed=True)
-
-    requestId: str
-    motor: MotorCreate

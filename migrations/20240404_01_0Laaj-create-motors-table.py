@@ -7,7 +7,6 @@ from yoyo import step
 __depends__ = {}
 
 steps = [
-    step("DROP table motors;"),
     step(
         """
         CREATE TABLE motors (

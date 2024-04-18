@@ -12,7 +12,7 @@ class MotorHandler:
     def get_motor(self, id):
         res = self.repo.get(id)
         if not res:
-            raise HTTPException(status_code=404)
+            raise HTTPException(status_code=404, detail=f"Мотора с id = {id} не найдено")
         return res
 
     def save(self, scheme):
