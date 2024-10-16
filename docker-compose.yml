@@ -41,6 +41,8 @@ services:
       container_name: lvinka-api
       image: api:dev
       build: .
+      environment:
+        PSQL_URI_DB: "postgresql://lvinka:lvinka-db-password@lvinka-postgres:5432/lvinka"
       volumes:
         - ./env:/code/.env
       ports:

@@ -1,11 +1,22 @@
 from fastapi import APIRouter, Depends, status
-from typing import List
+from typing import List, Dict
 
 from app.schemas.motors import Motor, MotorCreate
 from app.handlers.motors import MotorHandler
 
 
 router = APIRouter()
+
+
+@router.get("/motors/status-list",
+            response_model=Dict,
+            summary="Получение списка доступных состояний двигателя",
+            description="Получение списка всех доступных состояний подключения")
+async def get_status_list():
+    return {
+        "success": "Все хорошо, подключение установлено",
+        "failure": "Ошибка в подключении"
+    }
 
 
 @router.get("/motors",

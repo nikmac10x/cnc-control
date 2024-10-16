@@ -5,3 +5,4 @@ psycopg[bynary,pool]==3.1.18  # взаимодействие  с БД PostgreSQL
 yoyo-migrations==8.2.0  # миграции
 psycopg2-binary==2.9.9  # для работы yoyo-migrations
 pydantic-settings==2.2.1  # для работы с настройками
+apscheduler==3.10.4  # для регулярного опроса

@@ -1,7 +1,6 @@
-from typing import List, Optional
 import psycopg
 from psycopg.rows import dict_row
-
+from datetime import datetime
 
 from app.schemas.motors import Motor
 from app.config import get_settings
@@ -43,6 +42,16 @@ class MotorRepository:
         with self.get_conn() as conn:
             with conn.cursor() as cur:
                 cur.execute(query, values)
+                return cur.fetchone()
+
+    def update_status(self, id, status):
+        now = datetime.now()
+        query = f"UPDATE motors SET"
+        query += (f" status = \'{status}\',"
+                  f" \"statusDate\" = \'{now}\' WHERE id = {id} RETURNING id")
+        with self.get_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute(query)
                 return cur.fetchone()
 
     def drop(self, id: int):
